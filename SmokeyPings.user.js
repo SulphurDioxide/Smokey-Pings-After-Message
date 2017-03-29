@@ -9,32 +9,31 @@
 // ==/UserScript==
 
 // A list of IDs that can be chosen to follow:
-var smokeySO = 3735529;
-var smokeySE = 120914;
 var henders = 2233391;
+
+// Set the constant by passing in an object and then selecting which key to use based on the current host:
+const smokeyID = {
+	'chat.stackexchange.com':120914,
+	'chat.stackoverflow.com':3735529,
+}[window.location.host];
 
 /*
     If you want to use smokey on all chat rooms set the userID as 'smokeyALL' and it will select the appropriate smokey ID for the chatroom you are in.
 */
-var userID = "smokeyALL";
+var userID = smokeyID;
 
-// Out of all of the listed IDs, which one shall we use?
-if(userID == 'smokeyALL'){
-    if(window.location.href.indexOf('41570/so-close-vote-reviewers') > 0){
-        var userID = smokeySO;
-    } else {
-        var userID = smokeySE;
-    }
-}
 
 // Binds the event 'DOMNodeINserted' to the element with the 'chat' id.
 $('#chat').bind('DOMNodeInserted', function(){
+	// jQuery object of the last child of the chat:
+	var lastChild = $('div.user-container:last-child.user-'+userID+':not(.notified)')
+	
 	// If there is a div with the following classes (userID specifying the user this applies to)
-    if($('div.user-container:last-child.user-'+userID+':not(.notified)').length > 0){
+    if(lastChild.length > 0){
     	// Play the chatroom's notification sound
         $('#jp_audio_0')[0].play();
         // Add a class 'notified' to the item so there are not continuous notifications about the same exact item.
-        $('div.user-container:last-child.user-'+userID+':not(.notified)').addClass('notified');
+        lastChild.addClass('notified');
 
         console.log('notified');
     }
