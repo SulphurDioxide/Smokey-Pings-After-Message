@@ -3,7 +3,7 @@
 // @description Play the ping sound if Smokey has a message at the bottom of the SOCVR chat.
 // @author      Henders
 // @attribution Andy Henderson (https://github.com/SulphurDioxide)
-// @version     0.0.1
+// @version     0.0.3
 // @match       *://chat.stackexchange.com/rooms/11540/charcoal-hq*
 // @match       *://chat.stackoverflow.com/rooms/41570/so-close-vote-reviewers*
 // ==/UserScript==
@@ -18,23 +18,27 @@ const smokeyID = {
 }[window.location.host];
 
 /*
-    If you want to use smokey on all chat rooms set the userID as 'smokeyALL' and it will select the appropriate smokey ID for the chatroom you are in.
+    One day this will be selectable so you can choose which ID you want notifying about. 
+    
+    For example, this could equally ping you for FireAlarm, Queen etc... 
 */
 var userID = smokeyID;
 
+// Testing the new part: 
+CHAT.addEventHandlerHook(chatMessageRecieved);
 
-// Binds the event 'DOMNodeINserted' to the element with the 'chat' id.
-$('#chat').bind('DOMNodeInserted', function(){
-	// jQuery object of the last child of the chat:
-	var lastChild = $('div.user-container:last-child.user-'+userID+':not(.notified)')
-	
-	// If there is a div with the following classes (userID specifying the user this applies to)
-    if(lastChild.length > 0){
-    	// Play the chatroom's notification sound
-        $('#jp_audio_0')[0].play();
-        // Add a class 'notified' to the item so there are not continuous notifications about the same exact item.
-        lastChild.addClass('notified');
-
-        console.log('notified');
+function chatMessageRecieved({event_type, user_id, content}){
+    // First, check the event_type is 1 (message posted):
+    if(event_type != 1){
+        // It isn't a 'message posted' event:
+        return false;
     }
-});
+    
+    //Check the user_id the one we expect it to be:
+    if(userID == user_id){
+        // This is the id we were looking for (in most cases Smokey):
+        // Play the ping sound:
+        $('#jp_audio_0')[0].play();
+        
+    }
+}
