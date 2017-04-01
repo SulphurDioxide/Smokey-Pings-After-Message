@@ -24,9 +24,21 @@ const smokeyID = {
 */
 var userID = smokeyID;
 
-// Testing the new part: 
+// These are the settings for which reports to ping about:
+var pingReportsOnly = true;
+
+// Regex for matching reports: 
+var reportRegex = /\[ <a[^>]+>SmokeDetector<\/a> \| <a[^>]+>MS<\/a> ] /;
+
+// Add our function to the CHAT event handler: 
 CHAT.addEventHandlerHook(chatMessageRecieved);
 
+/*
+    This function is called when a new chat event fires. 
+    
+        - Check that the event is of type 1 (message posted)
+        - Check the message is from userID specified
+*/
 function chatMessageRecieved({event_type, user_id, content}){
     // First, check the event_type is 1 (message posted):
     if(event_type != 1){
@@ -37,6 +49,16 @@ function chatMessageRecieved({event_type, user_id, content}){
     //Check the user_id the one we expect it to be:
     if(userID == user_id){
         // This is the id we were looking for (in most cases Smokey):
+        // Is reports only true?
+        if(pingReportsOnly){
+            // Only pinging for reports, attempt to match the report:
+            var matchResult = content.match(reportRegex);
+            
+            if(matchResult === null){
+                // No match for regex, return false:
+                return false;    
+            }
+        }
         // Play the ping sound:
         $('#jp_audio_0')[0].play();
         
