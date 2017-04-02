@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name        Smokey Pings After Message (SPAM)
-// @description Play the ping sound if Smokey has a message at the bottom of the SOCVR chat.
+// @description Play the ping sound if Smokey has a message at the bottom of the SOCVR or Charcoal HQ chats.
 // @author      Henders
 // @attribution Andy Henderson (https://github.com/SulphurDioxide)
 // @version     0.0.4
