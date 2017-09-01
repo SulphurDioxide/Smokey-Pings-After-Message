@@ -127,7 +127,7 @@ function playSpamSound(sound){
     // Play the stored sound:
     var storedSound = JSON.parse(localStorage.getItem('SPAM-settings')).notificationSound;
     
-    $('#'+soundMap.storedSound)[0].play();
+    $('#'+soundMap[storedSound])[0].play();
     
   } else {
     // Play the sound specified:
