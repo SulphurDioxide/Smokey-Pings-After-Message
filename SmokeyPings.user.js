@@ -25,6 +25,7 @@ if(localStorage.getItem('SPAM-settings') == null){
   };
   
   localStorage.setItem('SPAM-settings', JSON.stringify(defaultSpamSettings));
+  
 }
 
 /*
@@ -88,10 +89,14 @@ function chatMessageRecieved({event_type, user_id, content}){
     This function shows / hides the spam settings menu.
 */
 function toggleSpamOptions(){
-    var spamOptionsMenu = "<div id='spamOptionsMenu' class='spamSettings'><div style='position: absolute; right: 10px;'><a id='closeSpamOptions' href='javascript:void(0);'>Close</a></div><h2>Spam Options</h2><strong>Notification Sound</strong>:<div><select id='spamSoundSelect'><option value='default'>default</option><option value='piano'>Piano</option><option value='clavinova'>Clavinova</option><option value='vibraphone'>Vibraphone</option></select></div> </div>";
+    var spamOptionsMenu = "<div id='spamOptionsMenu' class='spamSettings'><div style='position: absolute; right: 10px;'><a id='closeSpamOptions' href='javascript:void(0);'>Close</a></div><h2>Spam Options</h2><strong>Notification Sound</strong>:<div><select id='spamSoundSelect'><option id='defaultOption' class='SPAM-option' value='default'>Default</option><option id='pianoOption' class='SPAM-option' value='piano'>Piano</option><option id='clavinovaOption' class='SPAM-option' value='clavinova'>Clavinova</option><option id='vibraphoneOption' class='SPAM-option' value='vibraphone'>Vibraphone</option></select></div> </div>";
     
     if($('#spamOptionsMenu').length < 1){
       $('#spamOptions').after(spamOptionsMenu);
+      
+      var storedSound = JSON.parse(localStorage.getItem('SPAM-settings')).notificationSound;
+      $('#'+storedSound+'Option').attr('selected', true);
+      
       $('#closeSpamOptions').click(function(){
         toggleSpamOptions();
       });
@@ -112,6 +117,9 @@ function setSpamSound(sound){
   currentStoredSettings.notificationSound = sound;
   
   localStorage.setItem('SPAM-settings', JSON.stringify(currentStoredSettings));
+
+  $('.SPAM-option').attr('selected', false);
+  $('#'+sound+'Option').attr('selected', true);
 
 }
 
