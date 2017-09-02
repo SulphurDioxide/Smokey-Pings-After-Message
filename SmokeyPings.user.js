@@ -45,7 +45,7 @@ var reportRegex = /\[ <a[^>]+>SmokeDetector<\/a> \| <a[^>]+>MS<\/a> ] /;
 CHAT.addEventHandlerHook(chatMessageRecieved);
 
 // Add the SPAM link to change the settings:
-$('#sidebar-menu').append("| <a id='spamOptions' href='javascript:void(0);' onclick=''>SPAM</a>");
+$('#sidebar-menu').append("| <a id='spamOptions' href='#' onclick='return false'>SPAM</a>");
 $('head').append("<style> .spamSettings { position: fixed; z-index: 50; padding: 10px; border: 1px solid #aaa; width: 200px; font-size: 11px; color: #444; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; background: rgba(255,255,255,0.95); filter: alpha(opacity=95); -webkit-box-shadow: 0 1px 15px #9c9c9c; -moz-box-shadow: 0 1px 15px #9c9c9c; box-shadow: 0 1px 15px #9c9c9c; overflow: hidden; } </style>");
 
 $('#jplayer').append('<audio id="jp_audio_clavinova" preload="metadata" src="https://adhenderson.co.uk/sounds/clavinova.mp3"></audio><audio id="jp_audio_vibraphone" preload="metadata" src="https://adhenderson.co.uk/sounds/vibraphone.mp3"></audio><audio id="jp_audio_piano" preload="metadata" src="https://adhenderson.co.uk/sounds/piano.mp3"></audio>');
@@ -89,7 +89,7 @@ function chatMessageRecieved({event_type, user_id, content}){
     This function shows / hides the spam settings menu.
 */
 function toggleSpamOptions(){
-    var spamOptionsMenu = "<div id='spamOptionsMenu' class='spamSettings'><div style='position: absolute; right: 10px;'><a id='closeSpamOptions' href='javascript:void(0);'>Close</a></div><h2>Spam Options</h2><strong>Notification Sound</strong>:<div><select id='spamSoundSelect'><option id='defaultOption' class='SPAM-option' value='default'>Default</option><option id='pianoOption' class='SPAM-option' value='piano'>Piano</option><option id='clavinovaOption' class='SPAM-option' value='clavinova'>Clavinova</option><option id='vibraphoneOption' class='SPAM-option' value='vibraphone'>Vibraphone</option></select></div> </div>";
+    var spamOptionsMenu = "<div id='spamOptionsMenu' class='spamSettings'><div style='position: absolute; right: 10px;'><a id='closeSpamOptions' href='#' onclick='return false;'>Close</a></div><h2>Spam Options</h2><strong>Notification Sound</strong>:<div><select id='spamSoundSelect'><option id='defaultOption' class='SPAM-option' value='default'>Default</option><option id='pianoOption' class='SPAM-option' value='piano'>Piano</option><option id='clavinovaOption' class='SPAM-option' value='clavinova'>Clavinova</option><option id='vibraphoneOption' class='SPAM-option' value='vibraphone'>Vibraphone</option></select></div> </div>";
     
     if($('#spamOptionsMenu').length < 1){
       $('#spamOptions').after(spamOptionsMenu);
