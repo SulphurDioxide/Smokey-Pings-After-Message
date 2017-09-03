@@ -6,6 +6,7 @@
 // @version     0.1.0
 // @match       *://chat.stackexchange.com/rooms/11540/charcoal-hq*
 // @match       *://chat.stackoverflow.com/rooms/41570/so-close-vote-reviewers*
+// @grant       none
 // ==/UserScript==
 
 // A list of IDs that can be chosen to follow:
@@ -41,17 +42,21 @@ var pingReportsOnly = true;
 // Regex for matching reports: 
 var reportRegex = /\[ <a[^>]+>SmokeDetector<\/a> \| <a[^>]+>MS<\/a> ] /;
 
-// Add our function to the CHAT event handler: 
-CHAT.addEventHandlerHook(chatMessageRecieved);
 
-// Add the SPAM link to change the settings:
-$('#sidebar-menu').append("| <a id='spamOptions' href='#' onclick='return false'>SPAM</a>");
-$('head').append("<style> .spamSettings { position: fixed; z-index: 50; padding: 10px; border: 1px solid #aaa; width: 200px; font-size: 11px; color: #444; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; background: rgba(255,255,255,0.95); filter: alpha(opacity=95); -webkit-box-shadow: 0 1px 15px #9c9c9c; -moz-box-shadow: 0 1px 15px #9c9c9c; box-shadow: 0 1px 15px #9c9c9c; overflow: hidden; } </style>");
+$(document).ready(function(){
+  // Add our function to the CHAT event handler: 
+  CHAT.addEventHandlerHook(chatMessageRecieved);
+  
+  // Add the SPAM link to change the settings:
+  $('#sidebar-menu').append("| <a id='spamOptions' href='#' onclick='return false'>SPAM</a>");
+  $('head').append("<style> .spamSettings { position: fixed; z-index: 50; padding: 10px; border: 1px solid #aaa; width: 200px; font-size: 11px; color: #444; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; background: rgba(255,255,255,0.95); filter: alpha(opacity=95); -webkit-box-shadow: 0 1px 15px #9c9c9c; -moz-box-shadow: 0 1px 15px #9c9c9c; box-shadow: 0 1px 15px #9c9c9c; overflow: hidden; } </style>");
+  
+  $('#jplayer').append('<audio id="jp_audio_clavinova" preload="metadata" src="https://adhenderson.co.uk/sounds/clavinova.mp3"></audio><audio id="jp_audio_vibraphone" preload="metadata" src="https://adhenderson.co.uk/sounds/vibraphone.mp3"></audio><audio id="jp_audio_piano" preload="metadata" src="https://adhenderson.co.uk/sounds/piano.mp3"></audio>');
+  
+  $('#spamOptions').click(function(){
+     toggleSpamOptions();
+  });
 
-$('#jplayer').append('<audio id="jp_audio_clavinova" preload="metadata" src="https://adhenderson.co.uk/sounds/clavinova.mp3"></audio><audio id="jp_audio_vibraphone" preload="metadata" src="https://adhenderson.co.uk/sounds/vibraphone.mp3"></audio><audio id="jp_audio_piano" preload="metadata" src="https://adhenderson.co.uk/sounds/piano.mp3"></audio>');
-
-$('#spamOptions').click(function(){
-   toggleSpamOptions();
 });
 /*
     This function is called when a new chat event fires. 
